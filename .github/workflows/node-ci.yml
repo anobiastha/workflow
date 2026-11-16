@@ -1,1 +1,39 @@
+name : node.js
 
+on:
+   push:
+     branches:
+       -main
+       -development
+
+   pull:
+      branches:
+        -main
+
+
+
+jobs:
+  build:
+    run: ubuntu_latest
+
+    steps :
+      -name: checkout directories
+      uses: actions/checkout@v4
+
+      -name: setup node.js
+       uses: actions/setup_node@v4
+      with:
+           node_version:12
+           cache:npm
+
+      -name: install dependencies
+      uses: npm 
+
+      -name: fix eslint permission
+      uses: chmod +x eslint/dev/null
+
+      -name: check lint
+      uses: npm run lint
+
+      -name: check test
+      uses: npm test
